@@ -1,2 +1,29 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container">
+  <%= form_tag root_path, method: :get do %>
+    <%= text_field_tag :query,
+      params[:query],
+      class: "form-control",
+      placeholder: "Type a keyword"
+    %>
+    <%= submit_tag "Search", class: "btn btn-primary" %>
+  <% end %>
+
+  <div class="row">
+    <div class="col-sm-8 offset-sm-2">
+      <div id="movies">
+        <% @results.each do |result| %>
+          <% if result.searchable_type == 'Movie' %>
+            <% movie = result.searchable %>
+            <h4><%= movie.title %></h4>
+            <h5>Director: <%= movie.director.first_name %> <%= movie.director.last_name %></h5>
+            <p><%= movie.syllabus %></p>            
+          <% else %>
+            <% tv_show = result.searchable %>
+            <h4><%= tv_show.title %></h4>
+            <p><%= tv_show.syllabus %></p>            
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
